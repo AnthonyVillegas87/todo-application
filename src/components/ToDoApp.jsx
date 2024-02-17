@@ -15,7 +15,6 @@ function AuthenticatedRoute({children}) {
 
     if(authContext.isAuthenticated) return children
 
-
     return <Navigate to="/"/>
 }
 
