@@ -1,15 +1,31 @@
+import {useEffect, useState} from "react";
+import {retrieveApiService} from "../api/ApiService";
+import loginComponent from "./LoginComponent";
+
 function ListTodoComponent() {
 
     const today = new Date();
     const targetDate = new Date(today.getFullYear() + 12, today.getMonth(), today.getDay())
 
-    const todoList = [
-        {id: 1, description: "Morning affirmations reading.", done: false, targetDate: targetDate},
-        {id: 2, description: "Get to morning gym session", done: false, targetDate: targetDate},
-        {id: 3, description: "Get to work, complete daily stand-ups, and work on the next feature.", done: false, targetDate: targetDate},
-        {id: 4, description: "Finish at work, head to grocery store.", done: false, targetDate: targetDate},
-        {id: 5, description: "Prepare and cook dinner.", done: false, targetDate: targetDate}
-    ]
+
+    const [todoList,setTodoList] = useState([])
+
+
+    useEffect (() => refreshToDoList(), [])
+
+
+
+    
+    function refreshToDoList() {
+        retrieveApiService('George Tudor')
+            .then(response => {
+
+                setTodoList(response.data)
+            }
+            )
+            .catch(error => console.log(error))
+
+    }
 
     return (
         <div className="container">
@@ -34,7 +50,7 @@ function ListTodoComponent() {
                                     <td>{todo.id}</td>
                                     <td>{todo.description}</td>
                                     <td>{todo.done.toString()}</td>
-                                    <td>{todo.targetDate.toDateString()}</td>
+                                    <td>{todo.targetDate.toString()}</td>
                                 </tr>
                             )
                         )

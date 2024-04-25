@@ -1,7 +1,12 @@
 import axios from "axios";
 
 
-export function retrieveApiService() {
-    return axios.get('http://localhost:8080/hello-world')
-}
+const apiClient = axios.create (
+    {
+      baseURL: 'http://localhost:8080'
+    }
+)
+
+export  const retrieveApiService = (username) => apiClient.get(`/users/${username}/todos`)
+
 
