@@ -1,13 +1,13 @@
 import {Link, useParams} from "react-router-dom";
 import {useState} from "react";
-import {retrieveApiService} from "../api/ApiService";
+import {retrieveAllApiService} from "../api/ApiService";
 function WelcomeComponent() {
     const {username} = useParams()
 
     const [message,setMessage] = useState(null)
 
     function callRestApi() {
-        retrieveApiService()
+        retrieveAllApiService()
             .then( (response) => successResponse(response) )
             .catch( (error) => failedResponse(error))
             .finally( () => console.log('cleanup') )
