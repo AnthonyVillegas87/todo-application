@@ -12,17 +12,17 @@ function AuthenticationProvider({children}) {
     // 3. create some state in the context
     const [isAuthenticated, setAuthenticated] = useState(false)
 
-    const [username, setUserName] = useState(null)
+    const [username, setUsername] = useState(null)
 
     function login(username, password) {
-        if(username === 'George Tudor' && password === 'mypassword') {
+        if(username === 'GeorgeTudor' && password === 'mypassword') {
             setAuthenticated(true)
-            setUserName(username)
+            setUsername(username)
             return true
 
         } else {
             setAuthenticated(false)
-            setUserName(null)
+            setUsername(null)
             return false
         }
     }
