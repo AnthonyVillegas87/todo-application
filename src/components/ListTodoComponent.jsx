@@ -1,12 +1,17 @@
 import {useEffect, useState} from "react";
 import {deleteTodoApi, retrieveAllApiService} from "../api/ApiService";
 import loginComponent from "./LoginComponent";
+import {useAuth} from "../security/AuthenticationContext";
 
 
 
 function ListTodoComponent() {
 
     const today = new Date();
+
+   const authContext = useAuth();
+
+   const username = authContext.username;
 
     const targetDate = new Date(today.getFullYear() + 12, today.getMonth(), today.getDay())
 
@@ -21,7 +26,7 @@ function ListTodoComponent() {
 
 
     function refreshToDoList() {
-        retrieveAllApiService('GeorgeTudor')
+        retrieveAllApiService(username)
             .then(response => {
                 setTodoList(response.data)
             }
@@ -32,11 +37,11 @@ function ListTodoComponent() {
 
     function deleteTodo(id) {
         console.log('clicked delete ' + id)
-        deleteTodoApi('GeorgeTudor', id)
+        deleteTodoApi(username, id)
             .then(
                 // Display message
                 () => {
-                    setMessage(`Deletetion of todo with ${id} successful`)
+                    setMessage(`Deletion of todo with ${id} successful`)
                     refreshToDoList()
                 }
                 // Update our list
