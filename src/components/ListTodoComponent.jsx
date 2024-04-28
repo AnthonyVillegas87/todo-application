@@ -29,12 +29,15 @@ function ListTodoComponent() {
 
 
     function refreshToDoList() {
-        retrieveAllApiService(username)
-            .then(response => {
-                setTodoList(response.data)
-            }
-            )
-            .catch(error => console.log(error))
+
+            retrieveAllApiService(username)
+                .then(response => {
+                        setTodoList(response.data)
+                    }
+                )
+                .catch(error => console.log(error))
+
+
 
     }
 
@@ -63,7 +66,10 @@ function ListTodoComponent() {
             .catch(error => console.log(error))
     }
 
-
+    // CREATE TODO FUNCTION
+    function createNewTodo() {
+        navigate(`/todo/-1`)
+    }
 
 
     return (
@@ -109,6 +115,7 @@ function ListTodoComponent() {
 
                 </table>
             </div>
+            <div className="btn btn-outline-info m-5" onClick={createNewTodo}>Create New Todo</div>
         </div>
     )
 }
