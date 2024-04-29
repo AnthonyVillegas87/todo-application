@@ -2,6 +2,7 @@
 import {createContext, useState} from "react";
 import {useContext} from "react";
 import {executeBasicAuthenticationService} from "../api/ApiService";
+import {apiClient} from "../api/ApiClient";
 
 
 // 1: Create Context
@@ -45,6 +46,14 @@ function AuthenticationProvider({children}) {
                 setAuthenticated(true)
                 setUsername(username)
                 setToken(basicAuthenticationToken)
+
+                apiClient.interceptors.request.use(
+                    (config) => {
+                        console.log('intercepting and adding a token')
+                        config.headers.Authorization=basicAuthenticationToken
+                        return config
+                    }
+                )
                 return true
 
             } else {

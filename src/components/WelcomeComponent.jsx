@@ -1,13 +1,16 @@
 import {Link, useParams} from "react-router-dom";
 import {useState} from "react";
 import {retrieveAllApiService} from "../api/ApiService";
+import {useAuth} from "../security/AuthenticationContext";
 function WelcomeComponent() {
     const {username} = useParams()
 
     const [message,setMessage] = useState(null)
 
+    const authContext = useAuth()
+
     function callRestApi() {
-        retrieveAllApiService()
+        retrieveAllApiService(authContext.token)
             .then( (response) => successResponse(response) )
             .catch( (error) => failedResponse(error))
             .finally( () => console.log('cleanup') )
