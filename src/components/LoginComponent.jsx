@@ -21,8 +21,8 @@ function LoginComponent() {
     }
 
 
-    function handleSubmit() {
-        if (authContext.login(username, password)) {
+  async function handleSubmit() {
+        if (await authContext.login(username, password)) {
 
             navigate(`/welcome/${username}`)
 

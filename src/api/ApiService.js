@@ -7,7 +7,15 @@ const apiClient = axios.create (
     }
 )
 
+
 export const retrieveAllApiService = (username) => apiClient.get(`/users/${username}/todos`)
+
+
+export const executeBasicAuthenticationService = (token) => apiClient.get(`/users/${token}/todos`, {
+    headers: {
+        Authorization: token
+    }
+})
 
 export const deleteTodoApi = (username, id) => apiClient.delete(`/users/${username}/todos/${id}`)
 
