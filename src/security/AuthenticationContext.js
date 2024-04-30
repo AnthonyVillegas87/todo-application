@@ -1,7 +1,7 @@
 // 1. Create context
 import {createContext, useState} from "react";
 import {useContext} from "react";
-import {executeBasicAuthenticationService} from "../api/ApiService";
+import { executeJwtAuthenticationService} from "../api/AuthenticationApiService";
 import {apiClient} from "../api/ApiClient";
 
 
@@ -12,7 +12,7 @@ export const useAuth = () => useContext(AuthContext)
 
 
 // 2. Share the created context with other components
-function AuthenticationProvider({children}) {
+export default function AuthenticationProvider({children}) {
 
 
     // 3. create some state in the context
@@ -22,35 +22,60 @@ function AuthenticationProvider({children}) {
 
     const [token, setToken] = useState(null)
 
-    // function login(username, password) {
-    //     if(username === 'GeorgeTudor' && password === 'mypassword') {
-    //         setAuthenticated(true)
-    //         setUsername(username)
-    //         return true
-    //
-    //     } else {
-    //         setAuthenticated(false)
-    //         setUsername(null)
-    //         return false
-    //     }
-    // }
+   // async function login(username, password) {
+   //      const basicAuthenticationToken = 'Basic ' + window.btoa(username + ":" + password);
+   //
+   //      try {
+   //
+   //          const response = await executeBasicAuthenticationService(basicAuthenticationToken)
+   //
+   //          if(response.status === 200) {
+   //              setAuthenticated(true)
+   //              setUsername(username)
+   //              setToken(basicAuthenticationToken)
+   //
+   //              apiClient.interceptors.request.use(
+   //                  (config) => {
+   //                      console.log('intercepting and adding a token')
+   //                      config.headers.Authorization=basicAuthenticationToken
+   //                      return config
+   //                  }
+   //              )
+   //              return true
+   //
+   //          } else {
+   //              logout()
+   //              return false
+   //          }
+   //
+   //      }  catch(error) {
+   //          logout()
+   //          return false
+   //
+   //      }
+   //
+   //  }
 
-   async function login(username, password) {
-        const basicAuthenticationToken = 'Basic ' + window.btoa(username + ":" + password);
+
+
+    async function login(username, password) {
 
         try {
 
-            const response = await executeBasicAuthenticationService(basicAuthenticationToken)
+            const response = await executeJwtAuthenticationService(username, password)
 
             if(response.status === 200) {
+
+                const jwtToken = 'Bearer ' + response.data.token
+
                 setAuthenticated(true)
                 setUsername(username)
-                setToken(basicAuthenticationToken)
+                setToken(jwtToken)
 
-                apiClient.interceptors.request.use(
+                    apiClient.interceptors.request.use(
                     (config) => {
                         console.log('intercepting and adding a token')
-                        config.headers.Authorization=basicAuthenticationToken
+                        config.headers.Authorization = jwtToken
                         return config
                     }
                 )
@@ -70,6 +95,7 @@ function AuthenticationProvider({children}) {
     }
 
 
+
     function logout() {
         setAuthenticated(false)
         setToken(null)
@@ -84,4 +110,3 @@ function AuthenticationProvider({children}) {
 }
 
 
-export default AuthenticationProvider

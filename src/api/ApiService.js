@@ -1,18 +1,7 @@
-import axios from 'axios';
+
 import {apiClient} from "./ApiClient";
 
-export const retrieveAllApiService = (username, token) => apiClient.get(`/users/${username}/todos`, {
-    headers: {
-        Authorization: token
-    }
-})
-
-
-export const executeBasicAuthenticationService = (token) => apiClient.get(`/users/${token}/todos`, {
-    headers: {
-        Authorization: token
-    }
-})
+export const retrieveAllApiService = (username) => apiClient.get(`/users/${username}/todos`)
 
 export const deleteTodoApi = (username, id) => apiClient.delete(`/users/${username}/todos/${id}`)
 
